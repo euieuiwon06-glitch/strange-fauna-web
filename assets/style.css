@@ -24,12 +24,14 @@ img { display: block; }
 /* 배경 듀오톤 노이즈 (#362B2F + 25% #D88282, 밀도 0.32) — 타일은 JS가 캔버스로 생성 */
 .cover::before { content: ''; position: absolute; inset: 0; background-image: var(--noise); background-size: calc(256 * var(--u)) calc(256 * var(--u)); pointer-events: none; }
 .strip { position: absolute; left: 0; width: 100%; height: calc(72 * var(--u)); display: grid; grid-template-columns: repeat(20, 1fr); }
-.strip::before, .strip::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: #2A2A2E; }
-.strip::before { top: 0; } .strip::after { bottom: 0; }
 .strip.top { top: calc(48 * var(--v)); }
 .strip.bottom { top: calc(545 * var(--v)); }
-.strip img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s ease; }
-.cover.ready .strip img { opacity: var(--op); }
+/* 칸마다 위아래 선(#2A2A2E)을 타일 밑에 깔고, 칸 전체가 타일과 함께 나타남 */
+.strip .cell { position: relative; opacity: 0; transition: opacity 1.2s ease; }
+.strip .cell::before, .strip .cell::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: #2A2A2E; }
+.strip .cell::before { top: 0; } .strip .cell::after { bottom: 0; }
+.cover.ready .strip .cell { opacity: 1; }
+.strip img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; opacity: var(--op); }
 .cover-logo { position: absolute; left: calc(68 * var(--u)); top: calc(216 * var(--v)); width: calc(83 * var(--u)); height: auto; }
 .cover-title { position: absolute; left: calc(192 * var(--u)); top: calc(206 * var(--v)); font-weight: 700;
   font-size: calc(105 * var(--u)); line-height: 1; letter-spacing: -0.04em; white-space: nowrap; filter: url(#texture);

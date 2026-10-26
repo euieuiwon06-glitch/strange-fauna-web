@@ -44,10 +44,10 @@
     for (const [cls, s] of [['top', D.stripTop], ['bottom', D.stripBottom]]) {
       const strip = h('div', { class: 'strip ' + cls, 'aria-hidden': 'true' });
       s.tiles.forEach((t, i) => {
-        const img = h('img', { src: `assets/tiles/${t}.webp`, alt: '' });
-        img.style.setProperty('--op', s.opacity[i]);
-        img.style.transitionDelay = (cls === 'top' ? i : 19 - i) * 45 + 'ms';
-        strip.appendChild(img);
+        const cell = h('span', { class: 'cell' }, `<img src="assets/tiles/${t}.webp" alt="">`);
+        cell.firstChild.style.setProperty('--op', s.opacity[i]);
+        cell.style.transitionDelay = (cls === 'top' ? i : 19 - i) * 45 + 'ms';
+        strip.appendChild(cell);
       });
       cover.appendChild(strip);
     }
