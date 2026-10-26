@@ -26,10 +26,7 @@ img { display: block; }
 .strip { position: absolute; left: 0; width: 100%; height: calc(72 * var(--u)); display: grid; grid-template-columns: repeat(20, 1fr); }
 .strip.top { top: calc(48 * var(--v)); }
 .strip.bottom { top: calc(545 * var(--v)); }
-/* 칸마다 위아래 선(#2A2A2E)을 타일 밑에 깔고, 칸 전체가 타일과 함께 나타남 */
 .strip .cell { position: relative; opacity: 0; transition: opacity 1.2s ease; }
-.strip .cell::before, .strip .cell::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: #2A2A2E; }
-.strip .cell::before { top: 0; } .strip .cell::after { bottom: 0; }
 .cover.ready .strip .cell { opacity: 1; }
 .strip img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; opacity: var(--op); }
 .cover-logo { position: absolute; left: calc(68 * var(--u)); top: calc(216 * var(--v)); width: calc(83 * var(--u)); height: auto; }
