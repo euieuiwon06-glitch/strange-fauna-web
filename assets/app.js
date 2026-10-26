@@ -4,10 +4,17 @@
   const h = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); for (const k in attrs) e.setAttribute(k, attrs[k]); e.innerHTML = html; return e; };
 
   // 1u = 화면 폭 / 1440 (스크롤바 제외)
+  // 모바일 브라우저는 스크롤 때 주소창·툴바가 접혔다 펴지며 높이만 바뀜 →
+  // 높이 기준값(--h0)은 처음 한 번과 폭이 바뀔 때(회전 등)만 다시 잼
+  let lastW = 0;
   const setU = () => {
-    const r = document.documentElement.style;
-    r.setProperty('--u', document.documentElement.clientWidth / 1440 + 'px');
-    r.setProperty('--v', innerHeight / 665 + 'px'); // 노트북 화면(약 2.17:1) 기준 세로 단위
+    const r = document.documentElement.style, w = document.documentElement.clientWidth;
+    r.setProperty('--u', w / 1440 + 'px');
+    if (w !== lastW) {
+      lastW = w;
+      r.setProperty('--v', innerHeight / 665 + 'px'); // 노트북 화면(약 2.17:1) 기준 세로 단위
+      r.setProperty('--h0', innerHeight + 'px');
+    }
   };
   setU(); addEventListener('resize', setU);
 
