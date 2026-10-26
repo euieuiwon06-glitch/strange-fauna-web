@@ -34,6 +34,9 @@
   /* ---------- index: 커버 + 상세 ---------- */
   const cover = $('.cover');
   if (cover) {
+    // 다시 열어도 브라우저가 이전 스크롤 위치로 내려가지 않고 항상 커버부터 (#detail 링크는 예외)
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) scrollTo(0, 0);
     // 배경 듀오톤 노이즈 타일: 1.9px 알갱이 중 32%에 짙은 자주 / 25% 핑크를 번갈아 찍음
     const nc = document.createElement('canvas'); nc.width = nc.height = 512;
     const g = nc.getContext('2d'); const cell = 2;
