@@ -81,14 +81,20 @@
 
     $('.back').addEventListener('click', (e) => { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); });
 
-    // 패키지 패널: 3개 중 어디로 넘어가는지 표시
-    const btn = $('.pk-btn'), panel = $('.pk-panel'), hint = $('.pk-hint');
+    setupPackageMenu($('.side.right'));
+  }
+
+  // 우측 상단 '/ Package' 패널: 3개 중 어디로 넘어가는지 표시 (상세·패키지 페이지 공통)
+  function setupPackageMenu(host, currentId) {
+    const btn = $('.pk-btn', host), panel = $('.pk-panel', host), hint = $('.pk-hint', host);
     D.packages.forEach((p) => {
-      const row = h('a', { class: 'pk-row', href: `package.html?id=${p.id}` },
+      const cur = p.id === currentId;
+      const row = h('a', { class: 'pk-row' + (cur ? ' cur' : ''), href: `package.html?id=${p.id}` },
         `<img src="assets/pkg/${p.key}-big1.webp" alt="">
          <div><div class="no">${p.no}</div><div class="nm">${p.name}</div><div class="sub">${p.nav}</div></div>
-         <span class="go">→</span>`);
-      row.addEventListener('mouseenter', () => { hint.innerHTML = `<b>${p.name}</b> 페이지로 이동합니다`; });
+         <span class="go">${cur ? '보는 중' : '→'}</span>`);
+      if (cur) row.setAttribute('aria-current', 'page');
+      row.addEventListener('mouseenter', () => { hint.innerHTML = cur ? `지금 <b>${p.name}</b> 페이지를 보고 있어요` : `<b>${p.name}</b> 페이지로 이동합니다`; });
       panel.insertBefore(row, hint);
     });
     const defaultHint = '패키지를 골라 주세요 — 3개';
@@ -110,6 +116,13 @@
     const idx = Math.max(0, D.packages.findIndex((p) => p.id === id));
     const P = D.packages[idx];
     document.title = `${P.name} — Package`;
+
+    // 상세 페이지와 같은 우측 상단 탭 (스크롤해도 고정)
+    const top = h('div', { class: 'topnav' },
+      `<nav class="nav"><button class="link pk-btn" type="button" aria-haspopup="true" aria-expanded="false">Package</button><a class="link" href="index.html#detail">About</a></nav>
+       <div class="pk-panel" role="menu"><div class="pk-head"><span>Package</span><span>03</span></div><div class="pk-hint"></div></div>`);
+    document.body.appendChild(top);
+    setupPackageMenu(top, P.id);
     const px = (v) => `calc(${v} * var(--u))`;
     const put = (el, x, y, w) => { el.style.left = px(x); el.style.top = px(y); if (w) el.style.width = px(w); board.appendChild(el); return el; };
     const rule = (x, y, w, cls = '') => put(h('div', { class: 'rule ' + cls }), x, y, w);

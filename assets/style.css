@@ -85,6 +85,11 @@ img { display: block; }
 .pk-row .go { color: var(--gray); white-space: nowrap; transition: transform .2s ease, color .2s ease; }
 .pk-row:hover .go { color: var(--ink); transform: translateX(3px); }
 .pk-row:hover .nm { text-decoration: underline; text-underline-offset: 3px; }
+.pk-row.cur .nm { text-decoration: none; }
+.pk-row.cur .go { color: var(--ink); font-weight: 600; transform: none; }
+.pk-row.cur img { outline: 1.5px solid var(--ink); outline-offset: -1.5px; }
+/* 패키지 페이지: 상세와 같은 우측 상단 탭을 화면에 고정 */
+.topnav { position: fixed; top: 0; right: 0; z-index: 20; font-size: calc(12 * var(--u)); }
 .pk-hint { color: var(--gray); padding-top: calc(8 * var(--u)); min-height: calc(24 * var(--u)); }
 .pk-hint b { color: var(--ink); font-weight: 600; }
 
