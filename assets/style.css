@@ -61,7 +61,7 @@ img { display: block; }
 .images figure.in { opacity: 1; transform: none; }
 .images img { width: 100%; height: auto; }
 .images.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(8 * var(--u)); padding-top: 22vh; }
-.images.grid figure { cursor: zoom-in; aspect-ratio: 1; overflow: hidden; }
+.images.grid figure { cursor: zoom-in; overflow: hidden; }
 .images.grid img { height: 100%; object-fit: cover; }
 
 .side.right .desc { position: absolute; top: 40.8%; left: calc(36 * var(--u)); width: calc(256 * var(--u)); font-size: calc(12 * var(--u)); line-height: 1.7; word-break: keep-all; }
