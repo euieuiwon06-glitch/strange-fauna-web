@@ -36,9 +36,9 @@
       g.fillRect(x, y, cell, cell);
     }
     cover.style.setProperty('--noise', `url(${nc.toDataURL()})`);
-    // 텍스처 강도도 화면 폭에 비례
-    const disp = $('#texture feDisplacementMap'), turb = $('#texture feTurbulence');
-    const fitTexture = () => { const u = document.documentElement.clientWidth / 1440; disp.setAttribute('scale', (5 * u).toFixed(2)); turb.setAttribute('baseFrequency', (0.45 / u).toFixed(3)); };
+    // 텍스처 강도는 제목 글자 크기에 비례 (Figma 105px 기준)
+    const disp = $('#texture feDisplacementMap'), turb = $('#texture feTurbulence'), title = $('.cover-title');
+    const fitTexture = () => { const k = parseFloat(getComputedStyle(title).fontSize) / 105; disp.setAttribute('scale', (5 * k).toFixed(2)); turb.setAttribute('baseFrequency', (0.45 / k).toFixed(3)); };
     fitTexture(); addEventListener('resize', fitTexture);
 
     for (const [cls, s] of [['top', D.stripTop], ['bottom', D.stripBottom]]) {
@@ -123,6 +123,12 @@
        <div class="pk-panel" role="menu"><div class="pk-head"><span>Package</span><span>03</span></div><div class="pk-hint"></div></div>`);
     document.body.appendChild(top);
     setupPackageMenu(top, P.id);
+
+    // 데스크톱 ↔ 모바일 배치가 바뀌면 다시 그림
+    const mq = matchMedia('(max-width: 760px)');
+    mq.addEventListener('change', () => location.reload());
+    if (mq.matches) { buildMobile(P, idx); return; }
+
     const px = (v) => `calc(${v} * var(--u))`;
     const put = (el, x, y, w) => { el.style.left = px(x); el.style.top = px(y); if (w) el.style.width = px(w); board.appendChild(el); return el; };
     const rule = (x, y, w, cls = '') => put(h('div', { class: 'rule ' + cls }), x, y, w);
@@ -167,5 +173,37 @@
     put(h('div', { class: 'codes' }, P.palette.map(([n, c]) => `<b>${n}</b>${c}`).join('<br>')), CB, 1270);
     rule(CB, 1447, SW);
     photo('big2', C2, 963, BW, 470); cap(C2, 1447, BW, P.caps.big2); more(C2 + 300, 1460, src('big2'));
+  }
+
+  // 모바일 패키지 페이지: 그리드와 같은 내용을 사진 → 캡션 → 설명 순서로 세로 배치
+  function buildMobile(P, idx) {
+    board.classList.add('m');
+    const add = (el, parent = board) => { parent.appendChild(el); return el; };
+    const src = (slot) => `assets/pkg/${P.key}-${slot}.webp`;
+    const ratio = { big1: '602/470', big2: '602/470', s1: '288/222', s2: '288/222', c3a: '288/222', c3b: '288/222' };
+    const photo = (slot, parent) => {
+      const el = add(h('div', { class: 'ph', style: `aspect-ratio:${ratio[slot]}` }, `<img src="${src(slot)}" alt="${P.name} ${slot}" loading="lazy">`), parent);
+      reveal.observe(el); el.addEventListener('click', () => openLb(src(slot)));
+      return el;
+    };
+    const cap = ([t, c], parent) => add(h('div', { class: 'cap' }, `<b>${t}</b> - ${c}`), parent);
+    const more = (slot, parent) => add(h('button', { class: 'more' }, '····&nbsp;&nbsp;Enlarge'), parent).addEventListener('click', () => openLb(src(slot)));
+    const sec = () => add(h('section', { class: 'sec' }));
+
+    add(h('div', { class: 'lbl' }, 'Package Design + Illustration'));
+    add(h('a', { class: 'logo', href: 'index.html' }, `${P.logo[0]}<i>  ${P.logo[1]}  </i>${P.logo[2]}`));
+    add(h('div', { class: 'heads' },
+      `<div><div class="lbl b">Navigation</div><div class="list"><a href="index.html#detail">(Overview)</a><br>Package <span class="g">— ${P.nav}</span><br><a href="#stickers">Stickers</a></div></div>
+       <div><div class="lbl b">Categories</div><div class="list">${D.packages.map((q, i) => `<a href="package.html?id=${q.id}" class="${i === idx ? '' : 'dim'}">${q.no}. ${q.name}</a>`).join('<br>')}</div></div>`));
+
+    let s = sec(); photo('big1', s); cap(P.caps.big1, s); more('big1', s);
+    s = sec(); photo('s1', s); cap(P.caps.s1, s); add(h('p', { class: 'pdesc ko' }, P.desc[0]), s);
+    s = sec(); const pair = add(h('div', { class: 'pair' }), s); photo('c3a', pair); photo('c3b', pair); cap(P.caps.c3, s);
+    s = sec(); s.id = 'stickers'; photo('s2', s); cap(P.caps.s2, s); add(h('p', { class: 'pdesc ko' }, P.desc[1]), s);
+    s = sec(); s.id = 'palette';
+    add(h('div', { class: 'swatch' }, P.palette.map(([n, c]) => `<span title="${n} ${c}" style="background:${c}"></span>`).join('')), s);
+    cap(['Colour Palette', `${P.palette.length} colours`], s);
+    add(h('div', { class: 'codes' }, P.palette.map(([n, c]) => `<b>${n}</b>${c}`).join('<br>')), s);
+    s = sec(); photo('big2', s); cap(P.caps.big2, s); more('big2', s);
   }
 })();

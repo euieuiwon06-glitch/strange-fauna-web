@@ -125,6 +125,63 @@ img { display: block; }
 .lightbox.open { opacity: 1; pointer-events: auto; }
 .lightbox img { max-width: 86vw; max-height: 86vh; background: #fff; }
 
+/* ================= 모바일 (760px 이하) — 기준 폭 390, 1m = 화면 폭 / 390 ================= */
+@media (max-width: 760px) {
+  :root { --m: calc(100vw / 390); }
+
+  /* 커버: 화면 높이를 채우고 로고 → 두 줄 제목 → 문구 순서로 */
+  .cover { height: 100svh; min-height: 600px; }
+  .cover::before { background-size: 200px 200px; }
+  .strip { width: calc(56 * 20 * var(--m)); height: calc(56 * var(--m)); grid-template-columns: repeat(20, calc(56 * var(--m))); }
+  .strip.top { top: calc(48 * var(--m)); left: auto; right: 0; }      /* 밝은 오른쪽 끝이 보이게 */
+  .strip.bottom { top: auto; bottom: calc(48 * var(--m)); left: 0; } /* 밝은 왼쪽 끝이 보이게 */
+  .cover-logo { left: calc(24 * var(--m)); top: 30%; width: calc(60 * var(--m)); }
+  .cover-title { left: calc(24 * var(--m)); right: calc(24 * var(--m)); top: calc(30% + 84 * var(--m)); font-size: calc(76 * var(--m)); line-height: .95; white-space: normal; }
+  .cover-tag { right: calc(24 * var(--m)); left: calc(24 * var(--m)); top: auto; bottom: calc(150 * var(--m)); white-space: normal; font-size: calc(17 * var(--m)); }
+
+  /* 상세: 한 줄 흐름 (aside를 풀어서 각 요소를 격자 칸에 배치) */
+  .detail { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "logo nav" "title title" "desc desc" "grid grid" "images images";
+    font-size: 13px; padding: 18px 0 0; }
+  .side { display: contents; }
+  .logo, .back, .title-block, .show-grid, .side.right .desc, .nav { position: static; }
+  .logo { grid-area: logo; align-self: start; padding-left: 20px; font-size: 28px; }
+  .back { display: none; }
+  .nav { grid-area: nav; position: sticky; top: 0; align-self: start; z-index: 30; gap: 14px; padding: 10px 16px; background: rgba(237,236,234,.92); backdrop-filter: blur(6px); }
+  .title-block { grid-area: title; padding: 48px 20px 0; }
+  .title-block h1 { font-size: 26px; }
+  .meta { gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .side.right .desc { grid-area: desc; width: auto; padding: 22px 20px 0; font-size: 14px; }
+  .show-grid { grid-area: grid; justify-self: start; padding: 28px 20px 14px; }
+  .images { grid-area: images; padding: 0 16px 80px; gap: 12px; }
+  .images.grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding-top: 0; }
+
+  /* 패키지 목록 패널: 화면 폭에 맞춰 위에서 펼침 */
+  .pk-panel { position: fixed; top: 46px; left: 12px; right: 12px; width: auto; padding: 14px 14px 8px; z-index: 40; }
+  .pk-head { padding-bottom: 10px; }
+  .pk-row { grid-template-columns: 76px 1fr auto; gap: 12px; padding: 10px 0; }
+  .pk-row .nm { font-size: 15px; }
+  .pk-hint { padding-top: 8px; min-height: 24px; }
+  .topnav { font-size: 13px; }
+  .topnav .nav { position: fixed; top: 0; right: 0; }
+
+  /* 패키지 페이지: 세로 흐름 */
+  .board.m { height: auto; font-size: 14px; padding: 64px 20px 72px; display: flex; flex-direction: column; }
+  .board.m > * { position: static; }
+  .board.m .lbl { font-size: 13px; }
+  .board.m .logo { font-size: 30px; padding: 0; margin: 28px 0 32px; }
+  .board.m .heads { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border-top: 1.5px solid var(--rule); border-bottom: 1.5px solid var(--rule); padding: 14px 0 16px; }
+  .board.m .list { line-height: 1.75; font-size: 13.5px; margin-top: 10px; }
+  .board.m .sec { margin-top: 36px; }
+  .board.m .ph { width: 100%; }
+  .board.m .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .board.m .cap { gap: 6px; padding: 12px 0; border-top: 1px solid var(--rule); margin-top: 12px; }
+  .board.m .cap::before { font-size: 10px; }
+  .board.m .pdesc { width: auto; padding: 14px 0 4px; border-top: 1px solid var(--rule); }
+  .board.m .more { font-size: 13px; margin-top: 8px; }
+  .board.m .swatch { height: 120px; }
+  .board.m .codes { padding-top: 14px; border-top: 1px solid var(--rule); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
