@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strange Fauna — Illustration Series</title>
+  <meta name="description" content="존재한 적 없는 생물들을 파스텔 톤의 고요한 행성 위에 그린 일러스트 시리즈">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%233D2D32%22/%3E%3Ccircle cx=%2221%22 cy=%2211%22 r=%225%22 fill=%22%23F67261%22/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <!-- 1. 커버 (Figma Frame 2) -->
+  <section class="cover" aria-label="Strange Fauna">
+    <!-- 제목 텍스처 효과 (Figma TEXTURE 3.1): 가장자리를 잘게 흐트러뜨림. scale은 JS가 화면 폭에 맞춤 -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="texture" x="-2%" y="-5%" width="104%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="7" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </svg>
+    <img class="cover-logo" src="assets/logo.svg" alt="" width="105" height="83">
+    <h2 class="cover-title">Strange Fauna</h2>
+    <p class="cover-tag">Illustrations of creatures that never existed,<br>drawn on a <b>quiet, pastel planet.</b></p>
+  </section>
+
+  <!-- 2. 상세 (Detail / Strange Fauna) — 스크롤하면 일러스트가 차례로 나타남 -->
+  <section class="detail" id="detail">
+    <aside class="side left">
+      <a class="logo" href="#">Prototypes<br>Archive</a>
+      <a class="back link" href="#">Back</a>
+      <div class="title-block">
+        <h1>Strange Fauna<br>Illustration Series</h1>
+        <div class="meta"><span class="n">01</span><span class="s">/</span><span>Illustration, Creature</span><span class="s">/</span><span>Graphic, Painting</span></div>
+      </div>
+      <button class="show-grid link" type="button">Show Grid</button>
+    </aside>
+
+    <main class="images" aria-label="일러스트 18점"></main>
+
+    <aside class="side right">
+      <nav class="nav">
+        <button class="link pk-btn" type="button" aria-haspopup="true" aria-expanded="false">Package</button>
+        <a class="link" href="#detail">About</a>
+      </nav>
+      <div class="pk-panel" role="menu">
+        <div class="pk-head"><span>Package</span><span>03</span></div>
+        <div class="pk-hint"></div>
+      </div>
+      <p class="desc ko">존재한 적 없는 생물들을 파스텔 톤의 고요한 행성 위에 그린 일러스트 시리즈입니다. 공룡의 실루엣에 껍질, 날개, 유리 같은 낯선 구조를 더해 18종의 생물을 만들었고, 빛바랜 색감과 거친 질감으로 오래된 도감 속 한 장면처럼 보정했습니다.</p>
+    </aside>
+  </section>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
