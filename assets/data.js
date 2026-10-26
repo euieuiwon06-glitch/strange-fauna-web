@@ -63,7 +63,7 @@ window.FAUNA = {
         big1: ['Window Box', 'Front, Print'],
         s1: ['Window Box', 'Perspective'],
         c3: ['Open Box, Folder', 'Package'],
-        s2: ['Die-cut Sticker', 'Creature'],
+        s2: ['Die-cut Stickers', 'Creature, Rock, Sphere'],
         big2: ['Dieline', 'Top view, Print'],
       },
       desc: [
